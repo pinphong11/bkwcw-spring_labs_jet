@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -160,5 +161,16 @@ public class LibraryController {
         libraryService.returnBook(recordId, LocalDate.now());
         logger.info("The book has been retrieved "+recordId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    // ค้นหาหนังสือตามประเภท
+    @GetMapping("/books/genre")
+    public List<Book> getBooksByGenre(@RequestParam String genre) {
+        return libraryService.getBooksByGenre(genre);
+    }
+
+    // ค้นหาหนังสือตามชื่อผู้แต่ง
+    @GetMapping("/books/author/{author}")
+    public List<Book> getBooksByAuthor(@PathVariable String author) {
+        return libraryService.getBooksByAuthor(author);
     }
 }

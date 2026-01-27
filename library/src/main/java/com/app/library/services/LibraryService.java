@@ -103,4 +103,29 @@ public class LibraryService {
         Book book = books.get(record.getBookId());
         book.setAvailableCopies(book.getAvailableCopies() +1 );
     }
+    // ==================== Lab 4: Search Methods ====================
+
+    // 1. ค้นหาหนังสือตามประเภท (Genre)
+    public List<Book> getBooksByGenre(String genre) {
+        return books.values().stream()
+                // เพิ่มการเช็ก book.getGenre() != null เพื่อกัน Error 500
+                .filter(book -> book.getGenre() != null && book.getGenre().equalsIgnoreCase(genre))
+                .collect(Collectors.toList());
+    }
+
+    // 2. ค้นหาหนังสือตามผู้แต่ง (Author)
+    public List<Book> getBooksByAuthor(String author) {
+        return books.values().stream()
+                // เพิ่มการเช็ก book.getAuthor() != null
+                .filter(book -> book.getAuthor() != null && book.getAuthor().equalsIgnoreCase(author))
+                .collect(Collectors.toList());
+    }
+
+    // 3. ค้นหาหนังสือที่ต้องคืนในวันที่กำหนด
+    public List<BorrowingRecord> getBooksDueOnDate(LocalDate dueDate) {
+        return borrowingRecords.values().stream()
+                // เพิ่มการเช็ก record.getDueDate() != null
+                .filter(record -> record.getDueDate() != null && record.getDueDate().equals(dueDate))
+                .collect(Collectors.toList());
+    }
 }
